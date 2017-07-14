@@ -51,7 +51,7 @@
                     int count = 0;
                     if(headers->len > 53 && pkt_data[12] == 0x08 && pkt_data[13] == 0x00){ //
 
-                        // ether packet //
+                        // ether packet size 14 //
                         printf("destination mac : ");
                         for(int i=0;i<6;i++)
                            printf("%x ",pkt_data[i]);
@@ -63,7 +63,7 @@
                            printf("%x ",pkt_data[i]);
                         printf("\n");
 
-                        // network layer - IP pakcet // 9 - tcp
+                        // network layer - IP pakcet size 20 // 9 - tcp
                         count = 26;
                         printf("source ip : ");
                         printf("%d.%d.%d.%d\n",pkt_data[count],pkt_data[count+1],pkt_data[count+2],pkt_data[count+3]);
@@ -72,6 +72,8 @@
                         printf("dest ip : ");
                         printf("%d.%d.%d.%d\n",pkt_data[count],pkt_data[count+1],pkt_data[count+2],pkt_data[count+3]);
 
+                        if(pkt_data[14+9] == 0x06){ // tcp - 6
+                        // tcp size 20 //
                         count = 34;
                         printf("source port : ");
                         printf("%d \n",(pkt_data[count]<<8) + pkt_data[count+1]);
@@ -80,7 +82,7 @@
                         printf("dest port : ");
                         printf("%d \n",(pkt_data[count]<<8) + pkt_data[count+1]);
 
-                        //54
+                        //20+20+14=54 ,54 : data
                         count = 54;
                         printf("data:");
                         if(pkt_data[count] != 0){
@@ -91,6 +93,7 @@
                             printf("data is nothing");
                         }
                         printf("\n");
+                        }
 
                         printf("/////////////////////////////////////////////////\n");
 
