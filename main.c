@@ -54,13 +54,13 @@
                         // ether packet size 14 //
                         printf("destination mac : ");
                         for(int i=0;i<6;i++)
-                           printf("%x ",pkt_data[i]);
+                           printf("%02X ",pkt_data[i]);
                         printf("\nsource mac : ");
                         for(int i=6;i<12;i++)
-                           printf("%x ",pkt_data[i]);
+                           printf("%02X ",pkt_data[i]);
                         printf("\nprotocol type : ");
                         for(int i=12;i<14;i++)
-                           printf("%x ",pkt_data[i]);
+                           printf("%02X ",pkt_data[i]);
                         printf("\n");
 
                         // network layer - IP pakcet size 20 // 9 - tcp
@@ -87,12 +87,14 @@
                         printf("data:");
                         if(pkt_data[count] != 0){
                             for(int i=count;i<(headers->len)-54;i++){
-                                printf("%x ",pkt_data[i]);
+                                printf("%02X ",pkt_data[i]);
                             }
                         }else{
                             printf("data is nothing");
                         }
                         printf("\n");
+                        }else{
+                            printf("no Tcp Protocol \n");
                         }
 
                         printf("/////////////////////////////////////////////////\n");
