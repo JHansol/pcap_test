@@ -1,6 +1,7 @@
 #include <pcap.h>
 #include <stdio.h>
 #include <string.h>
+#include <libnet.h>
 
 	 int main(int argc, char *argv[])
 	 {
@@ -21,13 +22,14 @@
 			return(2);
 		}
 		/* Find the properties for the device */
-		if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
+/*
+                if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
 			fprintf(stderr, "Couldn't get netmask for device %s: %s\n", dev, errbuf);
 			net = 0;
 			mask = 0;
-		}
-		/* Open the session in promiscuous mode */
-		handle = pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf);
+                }
+                /* Open the session in promiscuous mode */
+                handle = pcap_open_live("ens33", BUFSIZ, 1, 1000, errbuf);
 		if (handle == NULL) {
 			fprintf(stderr, "Couldn't open device %s: %s\n", dev, errbuf);
 			return(2);
@@ -44,12 +46,20 @@
 	
 		struct pcap_pkthdr *headers;
 		const unsigned char *pkt_data;
-		/* Grab a packet */
+
+                // TCP PACKET sniffer //
                 while(( pcap_next_ex(handle, &headers, &pkt_data))>=0){
-                    //for(int i=0;i<headers->len;i++)
-                    //    printf("%x ",pkt_data[i]);
+
                     int count = 0;
                     if(headers->len > 53 && pkt_data[12] == 0x08 && pkt_data[13] == 0x00){ //
+
+                        int ether_len = 14;
+                        struct libnet_802_3_hdr *eth = (struct libnet_802_3_hdr*)pkt_data;
+                        struct libnet_ipv4_hdr *ipv4 = (struct libnet_ipv4_hdr*)(pkt_data+ether_len);
+                        struct libnet_tcp_hdr *tcph = (struct libnet_tcp_hdr*)(pkt_data+ether_len+(ipv4->ip_hl*4));
+                        int ip_header_size = (ipv4->ip_hl*4);
+                        int tcp_header_size = (tcph->th_off*4);
+                        int data_size = ntohs(ipv4->ip_len) - ip_header_size - tcp_header_size;
 
                         // ether packet size 14 //
                         printf("destination mac : ");
