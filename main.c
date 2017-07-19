@@ -94,69 +94,6 @@
                              printf("\n////////////////////////////////////////////////////////////////////\n");
                          }
                      }
-
-                     /*
-                     int count = 0;
-                     if(headers->len > 53 && pkt_data[12] == 0x08 && pkt_data[13] == 0x00){ //
-
-                         ipv4 = (struct libnet_ipv4_hdr*)(pkt_data+ether_len);
-                         tcph = (struct libnet_tcp_hdr*)(pkt_data+ether_len+(ipv4->ip_hl*4));
-
-                         int ip_header_size = (ipv4->ip_hl*4);
-                         int tcp_header_size = (tcph->th_off*4);
-                         int data_size = ntohs(ipv4->ip_len) - ip_header_size - tcp_header_size;
-
-                         // ether packet size 14 //
-                         printf("destination mac : ");
-                         for(int i=0;i<6;i++)
-                            printf("%02X ",pkt_data[i]);
-                         printf("\nsource mac : ");
-                         for(int i=6;i<12;i++)
-                            printf("%02X ",pkt_data[i]);
-                         printf("\nprotocol type : ");
-                         for(int i=12;i<14;i++)
-                            printf("%02X ",pkt_data[i]);
-                         printf("\n");
-
-                         // network layer - IP pakcet size 20 // 9 - tcp
-                         count = 26;
-                         printf("source ip : ");
-                         printf("%d.%d.%d.%d\n",pkt_data[count],pkt_data[count+1],pkt_data[count+2],pkt_data[count+3]);
-
-                         count = 30;
-                         printf("dest ip : ");
-                         printf("%d.%d.%d.%d\n",pkt_data[count],pkt_data[count+1],pkt_data[count+2],pkt_data[count+3]);
-
-                         if(pkt_data[14+9] == 0x06){ // tcp - 6
-                         // tcp size 20 //
-                         count = 34;
-                         printf("source port : ");
-                         printf("%d \n",(pkt_data[count]<<8) + pkt_data[count+1]);
-
-                         count = 36;
-                         printf("dest port : ");
-                         printf("%d \n",(pkt_data[count]<<8) + pkt_data[count+1]);
-
-                         //20+20+14=54 ,54 : data
-                         count = 54;
-                         printf("data:");
-                         if(pkt_data[count] != 0){
-                             for(int i=count;i<(headers->len)-54;i++){
-                                 printf("%02X ",pkt_data[i]);
-                             }
-                         }else{
-                             printf("data is nothing");
-                         }
-                         printf("\n");
-                         }else{
-                             printf("no Tcp Protocol \n");
-                         }
-
-                         printf("/////////////////////////////////////////////////\n");
-
-                     }
-                     headers->len = 0;
-                    */
                 }
 
 		pcap_close(handle);
