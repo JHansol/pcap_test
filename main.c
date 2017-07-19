@@ -23,15 +23,9 @@
 			fprintf(stderr, "Couldn't find default device: %s\n", errbuf);
 			return(2);
 		}
-		/* Find the properties for the device */
-/*
-                if (pcap_lookupnet(dev, &net, &mask, errbuf) == -1) {
-			fprintf(stderr, "Couldn't get netmask for device %s: %s\n", dev, errbuf);
-			net = 0;
-			mask = 0;
-                }
+		if (argc <2) { exit(0);}
                 /* Open the session in promiscuous mode */
-                handle = pcap_open_live("ens33", BUFSIZ, 1, 1000, errbuf);
+                handle = pcap_open_live(argv[1], BUFSIZ, 1, 1000, errbuf);
 		if (handle == NULL) {
 			fprintf(stderr, "Couldn't open device %s: %s\n", dev, errbuf);
 			return(2);
@@ -72,9 +66,9 @@
 
                          // print ip address //
                          printf("source ip : ");
-                         printf("%s \n",inet_ntoa(ipv4->ip_src)); //ip_src, ip_dst;
+                         printf("%s \n",inet_ntop(ipv4->ip_src)); //ip_src, ip_dst;
                          printf("dest ip : ");
-                         printf("%s \n",inet_ntoa(ipv4->ip_dst)); //ip_src, ip_dst;
+                         printf("%s \n",inet_ntop(ipv4->ip_dst)); //ip_src, ip_dst;
 
                          if(ipv4->ip_p == IPPROTO_TCP){ // tcp = 0x06
                              tcph = (struct libnet_tcp_hdr*)(pkt_data+ether_len+(ipv4->ip_hl*4));
