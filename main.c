@@ -64,11 +64,12 @@
                          ipv4 = (struct libnet_ipv4_hdr*)(pkt_data+ether_len);
                          int ip_header_size = (ipv4->ip_hl*4);
 
+			char buf[20];
                          // print ip address //
                          printf("source ip : ");
-                         printf("%s \n",inet_ntop(ipv4->ip_src)); //ip_src, ip_dst;
+			 printf("%s \n",inet_ntop(AF_INET,&ipv4->ip_src,buf,sizeof(buf))); //ip_src, ip_dst;
                          printf("dest ip : ");
-                         printf("%s \n",inet_ntop(ipv4->ip_dst)); //ip_src, ip_dst;
+                         printf("%s \n",inet_ntop(AF_INET,&ipv4->ip_dst,buf,sizeof(buf))); //ip_src, ip_dst;
 
                          if(ipv4->ip_p == IPPROTO_TCP){ // tcp = 0x06
                              tcph = (struct libnet_tcp_hdr*)(pkt_data+ether_len+(ipv4->ip_hl*4));
