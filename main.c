@@ -48,6 +48,8 @@
                 struct libnet_tcp_hdr *tcph;
                 // TCP PACKET sniffer //
                 while(( pcap_next_ex(handle, &headers, &pkt_data))>=0){ // return 1 - receive
+			 if(res == 0) // Timeout 
+				 continue;
                      eth = (struct libnet_ethernet_hdr*)pkt_data;
 
                      // print mac address //
